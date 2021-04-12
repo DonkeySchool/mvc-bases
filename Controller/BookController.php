@@ -8,4 +8,11 @@ class BookController implements ControllerInterface
             'books' => Book::getList(),
         ]);
     }
+
+    public function executeOne($id)
+    {
+        return BookView::renderOne([
+            'book' => Book::getById($id),
+        ]);
+    }
 }

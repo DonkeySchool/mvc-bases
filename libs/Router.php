@@ -2,10 +2,23 @@
 
 class Router
 {
-    public function dispatch($url) : ControllerInterface
+    public function match($url) : array
     {
         if ($url == '/books') {
-            return new BookController();
+            return [ 
+                'controller' => BookController::class,
+            ];
+        }
+
+        $matches = [];
+        if (preg_match('#^\/books\/(\d+)#', $url, $matches)) {
+            return [ 
+                'controller' => BookController::class,
+                'action'     => 'executeOne',
+                'args'       => [
+                    'id' => (int) $matches[1],
+                ],
+            ];
         }
     }
 }

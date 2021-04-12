@@ -3,6 +3,10 @@
 require_once './libs/autoload.php';
 
 $router = new Router();
-$controller = $router->dispatch($_GET['url']);
+$route = $router->match($_SERVER['PATH_INFO']);
 
-$controller->execute();
+$controller = new $route['controller'];
+call_user_func_array([
+    $controller, 
+    $route['action'] ?? 'execute'
+], $route['args'] ?? []);
